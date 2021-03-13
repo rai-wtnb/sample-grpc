@@ -1,0 +1,7 @@
+version: "3"
+services: 
+    sample-grpc:
+        build: . 
+        tty: true
+        volumes:
+            - ./app:/go/src/app
