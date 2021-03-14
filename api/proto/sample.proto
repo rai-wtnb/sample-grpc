@@ -1,0 +1,55 @@
+syntax = "proto3";
+package pancake.maker;
+
+option go_package = "gen/api";
+
+//
+import "google/protobuf/timestamp.proto";
+
+
+service PankakeBakerService {
+  rpc Bake(BakeRequest) returns (BakeResponse) {}
+  rpc Report(ReportRequest) returns (ReportResponse) {}
+}
+
+// struct的な
+message Pancake {
+  // 列挙型
+  enum Menu {
+    UNKNOWN = 0;
+    CLASSIC = 1;
+    BANANA = 2;
+  }
+
+  // スカラー型
+  string chef_name = 1;
+
+  // 上記定義したMenu
+  Menu menu = 2;
+
+  float technical_score = 3;
+
+  google.protobuf.Timestamp create_time = 15;
+}
+
+message Report {
+  message BakeCount {
+    Pancake.Menu menu=1;
+    int32 count=2;
+  }
+  repeated BakeCount bake_counts = 1;
+}
+
+message BakeRequest {
+  Pancake.Menu menu=1;
+}
+
+message BakeResponse {
+  Pancake pancake=1;
+}
+  
+message ReportRequest {}
+
+message ReportResponse {
+  Report report=1;
+}
