@@ -5,3 +5,11 @@ services:
         tty: true
         volumes:
             - ./api:/go/src/app
+            - ./proto:/proto
+
+    client:
+        image: ruby:2.7.1
+        tty: true
+        volumes:
+            - ./client:/client
+            - ./proto:/proto
