@@ -10,7 +10,7 @@ type Game struct {
 }
 
 // ファクトリ
-func NewGame(me color) *Game {
+func NewGame(me Color) *Game {
 	return &Game{
 		Board: NewBoard(),
 		me:    me,
@@ -35,6 +35,8 @@ func (g *Game) Move(x, y int32, c Color) (bool, error) {
 		g.finished = true
 		return true, nil
 	}
+
+	return false, nil
 }
 
 // 両者がおける場所がないか確認。両者ともなければtrueを返す
@@ -67,31 +69,30 @@ func (g *Game) Display(me Color) {
 		fmt.Printf("You: %v\n", ColorToStr(me))
 	}
 
-	fmt.Print(" |")
+	fmt.Print(" ｜")
 	rs := []rune("ABCDEFGH")
 	for i, r := range rs {
 		fmt.Printf("%v", string(r))
 		if i < len(rs)-1 {
-			fmt.Print("|")
+			fmt.Print("｜")
 		}
 	}
-
 	fmt.Print("\n")
-	fmt.Println("--------------")
+	fmt.Println("ーーーーーーーーーーーーーー")
 
 	for j := 1; j < 9; j++ {
 		fmt.Printf("%d", j)
-		fmt.Print("|")
+		fmt.Print("｜")
 		for i := 1; i < 9; i++ {
 			fmt.Print(ColorToStr(g.Board.Cells[i][j]))
-			fmt.Print("|")
+			fmt.Print("｜")
 		}
+		fmt.Print("\n")
 	}
+
+	fmt.Println("ーーーーーーーーーーーーーー")
+
+	fmt.Printf("Score: BLACK=%d, WHITE=%d REST=%d\n", g.Board.Score(Black), g.Board.Score(White), g.Board.Rest())
+
 	fmt.Print("\n")
-
-	fmt.Println("--------------")
-
-	fmt.Printf("Score: BLACK=%d, White=%d, Rest=%d\n",
-		g.Board.Score(Black), g.Board.Score(White), g.Board.Rest())
-	fmt.Println("\n")
 }
